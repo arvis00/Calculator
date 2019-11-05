@@ -22,7 +22,7 @@ function calculate(one, two) {
         resultStore = one - two
     } else if (action == '/') {
         resultStore = one / two
-    } else if (action == '*') {
+    } else if (action == 'x') {
         resultStore = one * two
     } else if (action == 'Mod') {
         resultStore = one % two
@@ -61,9 +61,15 @@ clearResult()
 
 btnYellow.forEach(e => {
     e.addEventListener('click', event => {
+        console.log(event);
+        
         if (event.target.classList.contains('active')) {
             event.target.classList.remove('active')
+            console.log('remove');
+            
         } else {
+            console.log('add');
+            
         event.target.classList.add('active')
 
         }
