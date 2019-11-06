@@ -45,54 +45,103 @@ const clearResult = () => {
     output.innerHTML = ''
 }
 
+clearResult()
+
+
 function is_numeric(str) {
     return /^\d+$/.test(str);
 }
 
-clearResult()
+document.addEventListener('keydown', function (event) {
+    if (event.shiftKey && event.keyCode === 187) {
+        document.querySelector('.add').click()
 
-// btnYellow.forEach(e => {
-//     e.addEventListener('click', event => {
-//         event.target.classList.add('active')
+    } else if (event.shiftKey && event.keyCode === 56) {
+        document.querySelector('.multiply').click()
 
-//     })
-// })
+    }
+});
+
+document.onkeydown = function (e) {
+    e = e || window.event;
+    switch (e.which || e.keyCode || e.key) {
+        case 49:
+            document.querySelector('.one').click()
+            break;
+        case 50:
+            document.querySelector('.two').click()
+            break;
+        case 51:
+            document.querySelector('.three').click()
+            break;
+        case 52:
+            document.querySelector('.four').click()
+            break;
+        case 53:
+            document.querySelector('.five').click()
+            break;
+        case 54:
+            document.querySelector('.six').click()
+            break;
+        case 55:
+            document.querySelector('.seven').click()
+            break;
+        case 56:
+            if (e.keyCode == 56 && !e.shiftKey) {
+                document.querySelector('.eight').click()
+            }
+            break;
+        case 57:
+            document.querySelector('.nine').click()
+            break;
+        case 48:
+            document.querySelector('.zero').click()
+            break;
+        case 188:
+            document.querySelector('.comma').click()
+            break;
+        case 190:
+            document.querySelector('.comma').click()
+            break;
+        case 191:
+            document.querySelector('.divide').click()
+            break;
+        case 189:
+            document.querySelector('.subtract').click()
+            break;
+        case 13: //BUG!!
+            document.querySelector('.equal').click()
+            break;
+        case 8:
+            if (action == 0) {
+                arrayNum.pop()
+                number = arrayNum.join('')
+                output.innerHTML = number
+            } else {
+                arrayNumTwo.pop()
+                numberTwo = arrayNumTwo.join('')
+                output.innerHTML = numberTwo
+            }
+            break;
+    }
+}
+
+// document.onkeydown = function (e) {
+//     if (e.key) {
+
+//         console.log(e.keyCode);
+
+//     }
+// }
 
 
-btnYellow.forEach(e => {
-    e.addEventListener('click', event => {
-        console.log(event);
-        
-        if (event.target.classList.contains('active')) {
-            event.target.classList.remove('active')
-            console.log('remove');
-            
-        } else {
-            console.log('add');
-            
-        event.target.classList.add('active')
-
-        }
-    })
-})
-
-buttons.forEach(e => {
-    e.addEventListener('mousedown', event => {
-        event.target.classList.add('active')
-    })
-})
-
-buttons.forEach(e => {
-    e.addEventListener('mouseup', event => {
-        event.target.classList.remove('active')
-    })
-})
 
 
 
 buttons.forEach(e => {
     e.addEventListener('click', event => {
         const contentItem = event.target.textContent
+        const className = event.target.getAttribute("class")
         if (is_numeric(contentItem) && action == 0) {
             if (resultStore != 0) {
                 clearResult()
@@ -160,13 +209,92 @@ buttons.forEach(e => {
 
         } else if (contentItem == 'MC') {
             memory = 0
+        } else if (contentItem == '%') {
+            if (action == 0 && number != 0) {
+                arrayNum[0] = arrayNum[0] / 10
+                number = number / 10
+                output.innerHTML = number
 
+            } else if (action != 0 && numberTwo != 0) {
+                numberTwo = numberTwo / 100 * number
+                arrayNumTwo = []
+                output.innerHTML = numberTwo
+            }
 
+        } else if (contentItem == ',') {
+            if (output.innerHTML == '') {
+                arrayNum[0] = '0.'
+                output.innerHTML = '0.'
+            } else if (resultStore != 0) {
+                clearResult()
+                arrayNum[0] = '0.'
+                output.innerHTML = '0.'
+            } else if (action == 0 && arrayNum[0]) {
+                arrayNum[1] = '.'
+                output.innerHTML = number + '.'
+
+            } else if (action != 0 && arrayNumTwo[0]) {
+                arrayNumTwo[1] = '.'
+                output.innerHTML = numberTwo + '.'
+            }
+
+            //BUG!!!
+        } else if (className == 'backspace' && action == 0) {
+            console.log('press');
+
+            arrayNum.pop()
+            number = arrayNum.join('')
+            output.innerHTML = number
+
+        } else if (event.target.classList.contains("backspace") && action != 0) {
+            console.log('pressTwo');
+
+            arrayNumTwo.pop()
+            numberTwo = arrayNumTwo.join('')
+            output.innerHTML = numberTwo
         } else {
             action = contentItem
 
         }
 
 
+    })
+})
+
+btnYellow.forEach(e => {
+    e.addEventListener('click', event => {
+        console.log(event);
+//BUG//
+        if (event.target.classList.contains('active')) {
+            event.target.classList.remove('active')
+            action = 0
+            console.log('remove');
+        } else if (!event.target.classList.contains('active') && !event.target.classList.contains('equal')) {
+            console.log('add');
+            btnYellow.forEach(e => {
+                e.classList.remove('active')
+            })
+            event.target.classList.add('active')
+        } else if (event.target.classList.contains('equal')) {
+            btnYellow.forEach(e => {
+                e.classList.remove('active')
+            })
+        } else if (event.target.classList.contains('clear')){
+            btnYellow.forEach(e => {
+                e.classList.remove('active')
+            })
+        }
+    })
+})
+
+buttons.forEach(e => {
+    e.addEventListener('mousedown', event => {
+        event.target.classList.add('active')
+    })
+})
+
+buttons.forEach(e => {
+    e.addEventListener('mouseup', event => {
+        event.target.classList.remove('active')
     })
 })

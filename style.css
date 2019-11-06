@@ -6,6 +6,8 @@
     justify-content: space-between; */
     padding: 10px;
     text-align: center;
+    position: relative;
+
 }
 
 .wrap{
@@ -27,6 +29,11 @@ button{
     
 }
 
+button:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+
 
 
 .zero{
@@ -42,7 +49,7 @@ button{
     font-size: 45px;
     text-align: right;
     padding-top: 100px;
-    padding-right: 18px;
+    padding-right: 51px;
 }
 
 .grey{
@@ -61,6 +68,16 @@ button{
 
 .active{
     background-color: rgb(158, 122, 24);
+}
+
+.backspace{
+    position: absolute;
+    right: 25px;
+    top: 122px;
+}
+
+.backspace:hover{
+    cursor: pointer;
 }
 
 
